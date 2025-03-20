@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 
 
-Initialize the FastAPI app
+#Initialize the FastAPI app
 
 
-app = FastAPI()Root endpoint
+app = FastAPI()
 
 
+#Root endpoint
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -42,8 +43,6 @@ def multiply(num1: int, num2: int):
     return {"result": num1 * num2}
 
 # Run the app using Uvicorn
-
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("apiserver:app", host="0.0.0.0", port=8000, reload=True)

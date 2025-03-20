@@ -169,9 +169,12 @@ test()
 
 ```python
 import pytest
+
 import requests
 
 # Define test cases as a list of tuples for parameterized testing
+
+
 testcases = [
     ("http://localhost:8000/add/2/2", 4, "Test addition of 2 and 2"),
     ("http://localhost:8000/subtract/2/2", 0, "Test subtraction of 2 from 2"),
@@ -179,7 +182,6 @@ testcases = [
     ("http://localhost:8000/add/-1/1", 0, "Test addition of -1 and 1"),
     ("http://localhost:8000/multiply/0/5", 0, "Test multiplication by zero"),
 ]
-
 @pytest.mark.parametrize("url, expected, description", testcases)
 def test_api(url, expected, description):
     """
@@ -187,11 +189,17 @@ def test_api(url, expected, description):
     """
     response = requests.get(url)
     result = response.json()["result"]
+    print(f"{description}. Expected {expected}, got {result}")
     assert result == expected, f"{description}. Expected {expected}, got {result}"
-
+    
+    
 # Run tests using pytest
+
+
 if __name__ == "__main__":
     pytest.main()
+
+
 ```
 
 ---
@@ -238,10 +246,11 @@ jobs:
           python-version: "3.10"
 
       - name: Install dependencies
-        run: pip install fastapi uvicorn pytest requests
+        run: apt install python3 pipenv -y
+        run: pipenv install fastapi uvicorn pytest requests
 
       - name: Start FastAPI server
-        run: uvicorn main:app --host 0.0.0.0 --port 8000 --reload &
+        run: pipenv run python3 apiserver.py &
         env:
           PYTHONUNBUFFERED: 1
 
@@ -249,7 +258,7 @@ jobs:
         run: sleep 5  # Wait to ensure the server is up
 
       - name: Run tests
-        run: pytest test_api.py
+        run: pipenv run pytest automation_test_pytest.py
 
 ```
 
