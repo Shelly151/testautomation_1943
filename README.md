@@ -240,8 +240,17 @@ jobs:
       - name: Install dependencies
         run: pip install fastapi uvicorn pytest requests
 
+      - name: Start FastAPI server
+        run: uvicorn main:app --host 0.0.0.0 --port 8000 --reload &
+        env:
+          PYTHONUNBUFFERED: 1
+
+      - name: Wait for server to be ready
+        run: sleep 5  # Wait to ensure the server is up
+
       - name: Run tests
         run: pytest test_api.py
+
 ```
 
 ### **4 Advanced Error Handling & Logging**
